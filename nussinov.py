@@ -58,7 +58,7 @@ def traceback(s):
 
     return traceback_list
 
-def generate_visualization(traceback_list, rna_sequence):
+def generate_visualization(s, traceback_list, rna_sequence):
     columns = tuple(rna_sequence)
     rows = list(rna_sequence)
 
@@ -71,7 +71,7 @@ def generate_visualization(traceback_list, rna_sequence):
         colors[r][c] = "#42f55d"
 
     _, ax = plt.subplots()
-    ax.table(loc='center', cellColours=colors, colLabels=columns, rowLabels=rows)
+    ax.table(loc='center', cellColours=colors, colLabels=columns, rowLabels=rows, cellText=s)
     ax.axis('tight')
     ax.axis('off')
     plt.show()
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     seq = 'GCACGACG'
     table = nussinov(seq, base_pairings)
     traceback_list = traceback(table)
-    generate_visualization(traceback_list, seq)
+    generate_visualization(table, traceback_list, seq)
 
     # for row in table:
     #     print(row)
