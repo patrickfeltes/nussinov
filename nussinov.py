@@ -35,6 +35,7 @@ def nussinov(rna_sequence, base_pairings):
 def traceback(s):
     stack = []
     traceback_list = []
+    paren_list = []
 
     stack.append((0, len(s) - 1))
     traceback_list.append((0, len(s) - 1))
@@ -52,6 +53,7 @@ def traceback(s):
         elif s[i + 1][j - 1] + 1 == s[i][j]:
             stack.append((i + 1, j - 1))
             traceback_list.append((i + 1, j - 1))
+            paren_list.append((i, j))
         else:
             for k in range(i + 1, j):
                 if s[i][k] + s[k + 1][j] == s[i][j]:
@@ -61,7 +63,7 @@ def traceback(s):
                     traceback_list.append((i, k))
                     break
 
-    return traceback_list
+    return traceback_list, paren_list
 
 def dot_parentheses_notation(s, traceback_list):
     string = ['.'] * len(s)
@@ -70,13 +72,13 @@ def dot_parentheses_notation(s, traceback_list):
         string[j] = ')'
     return ''.join(string)
 
-def generate_visualization(s, traceback_list, rna_sequence):
+def generate_visualization(s, traceback_list, rna_sequence, dot_parentheses_string):
     columns = tuple(rna_sequence)
     rows = list(rna_sequence)
 
     colors = []
     numbers = []
-    for i in range(len(rna_sequence)):
+    for _ in range(len(rna_sequence)):
         colors.append((["w"] * len(rna_sequence)))
         numbers.append(([""] * len(rna_sequence)))
 
@@ -87,6 +89,7 @@ def generate_visualization(s, traceback_list, rna_sequence):
 
     _, ax = plt.subplots()
     ax.table(loc='center', cellColours=colors, colLabels=columns, rowLabels=rows, cellText=numbers)
+    plt.title(dot_parentheses_string)
     ax.axis('tight')
     ax.axis('off')
     plt.show()
@@ -101,6 +104,6 @@ if __name__ == "__main__":
 
     seq = sys.argv[1]
     table = nussinov(seq, base_pairings)
-    traceback_list = traceback(table)
-    dot_parentheses_string = dot_parentheses_notation(table, traceback_list)
-    generate_visualization(table, traceback_list, seq)
+    traceback_list, paren_list = traceback(table)
+    dot_parentheses_string = dot_parentheses_notation(table, paren_list)
+    generate_visualization(table, traceback_list, seq, dot_parentheses_string)
