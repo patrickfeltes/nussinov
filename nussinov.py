@@ -58,27 +58,23 @@ def traceback(s):
 
     return traceback_list
 
-def dot_parentheses_notation(s, traceback_list):
-    string = ['.'] * len(s)
-    for (i, j) in traceback_list:
-        string[i] = '('
-        string[j] = ')'
-    return ''.join(string)
-
-def generate_visualization(s, traceback_list, rna_sequence):
+def generate_visualization(traceback_list, matrix, rna_sequence):
     columns = tuple(rna_sequence)
     rows = list(rna_sequence)
 
     colors = []
-    for i in range(len(rna_sequence)):
+    numbers = []
+    for _ in range(len(rna_sequence)):
         colors.append((["w"] * len(rna_sequence)))
+        numbers.append([""] * len(rna_sequence))
     
     # Now, set the cells that should be colored as green
     for (r, c) in traceback_list:
         colors[r][c] = "#42f55d"
+        numbers[r][c] = str(matrix[r][c])
 
     _, ax = plt.subplots()
-    ax.table(loc='center', cellColours=colors, colLabels=columns, rowLabels=rows, cellText=s)
+    ax.table(loc='center', cellText=numbers, cellColours=colors, colLabels=columns, rowLabels=rows)
     ax.axis('tight')
     ax.axis('off')
     plt.show()
@@ -94,5 +90,4 @@ if __name__ == "__main__":
     seq = 'GCACGACG'
     table = nussinov(seq, base_pairings)
     traceback_list = traceback(table)
-    dot_parentheses_string = dot_parentheses_notation(table, traceback_list))
-    generate_visualization(table, traceback_list, seq)
+    generate_visualization(traceback_list, table, seq)
