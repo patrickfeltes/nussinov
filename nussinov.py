@@ -88,9 +88,3 @@ if __name__ == "__main__":
     table = nussinov(seq, base_pairings)
     traceback_list = traceback(table)
     generate_visualization(table, traceback_list, seq)
-
-    # for row in table:
-    #     print(row)
-
-    # print(traceback_list)
-
