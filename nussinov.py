@@ -58,6 +58,13 @@ def traceback(s):
 
     return traceback_list
 
+def dot_parentheses_notation(s, traceback_list):
+    string = ['.'] * len(s)
+    for (i, j) in traceback_list:
+        string[i] = '('
+        string[j] = ')'
+    return ''.join(string)
+
 def generate_visualization(s, traceback_list, rna_sequence):
     columns = tuple(rna_sequence)
     rows = list(rna_sequence)
@@ -87,4 +94,5 @@ if __name__ == "__main__":
     seq = 'GCACGACG'
     table = nussinov(seq, base_pairings)
     traceback_list = traceback(table)
+    dot_parentheses_string = dot_parentheses_notation(table, traceback_list))
     generate_visualization(table, traceback_list, seq)
