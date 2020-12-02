@@ -1,4 +1,4 @@
-
+import matplotlib.pyplot as plt
 
 def nussinov(rna_sequence, base_pairings):
     n = len(rna_sequence)
@@ -36,6 +36,7 @@ def traceback(s):
     traceback_list = []
 
     stack.append((0, len(s) - 1))
+    traceback_list.append((0, len(s) - 1))
 
     while len(stack) != 0:
         i, j = stack.pop()
@@ -57,18 +58,39 @@ def traceback(s):
 
     return traceback_list
 
-base_pairings = {
-    'G' : ['C'],
-    'C' : ['G'],
-    'A' : ['U'],
-    'U' : ['A']
-}
+def generate_visualization(traceback_list, rna_sequence):
+    columns = tuple(rna_sequence)
+    rows = list(rna_sequence)
 
-table = nussinov('GCACGACG', base_pairings)
+    colors = []
+    for i in range(len(rna_sequence)):
+        colors.append((["w"] * len(rna_sequence)))
+    
+    # Now, set the cells that should be colored as green
+    for (r, c) in traceback_list:
+        colors[r][c] = "#42f55d"
 
-for row in table:
-    print(row)
+    _, ax = plt.subplots()
+    ax.table(loc='center', cellColours=colors, colLabels=columns, rowLabels=rows)
+    ax.axis('tight')
+    ax.axis('off')
+    plt.show()
 
-traceback_list = traceback(table)
-print(traceback_list)
+if __name__ == "__main__":
+    base_pairings = {
+        'G' : ['C'],
+        'C' : ['G'],
+        'A' : ['U'],
+        'U' : ['A']
+    }
+
+    seq = 'GCACGACG'
+    table = nussinov(seq, base_pairings)
+    traceback_list = traceback(table)
+    generate_visualization(traceback_list, seq)
+
+    # for row in table:
+    #     print(row)
+
+    # print(traceback_list)
 
