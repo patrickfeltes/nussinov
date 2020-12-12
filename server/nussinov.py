@@ -1,8 +1,7 @@
-import matplotlib.pyplot as plt
 import sys
 import copy
 
-def nussinov(rna_sequence, base_pairings):
+def nussinov_alg(rna_sequence, base_pairings):
     n = len(rna_sequence)
 
     s = [[0] * n for x in range(n)]
@@ -127,54 +126,9 @@ def traceback(s, seq, base_pairings):
                 
     return results
 
-def dot_parentheses_notation(s, traceback_list):
+def get_dot_parentheses_notation(s, traceback_list):
     string = ['.'] * len(s)
     for (i, j) in traceback_list:
         string[i] = '('
         string[j] = ')'
     return ''.join(string)
-
-def generate_visualization(s, traceback_list, rna_sequence, dot_parentheses_string, num, output_prefix):
-    columns = tuple(rna_sequence)
-    rows = list(rna_sequence)
-
-    colors = []
-    numbers = []
-    for _ in range(len(rna_sequence)):
-        colors.append((["w"] * len(rna_sequence)))
-        numbers.append(([""] * len(rna_sequence)))
-
-    # Now, set the cells that should be colored as green
-    for (r, c) in traceback_list:
-        colors[r][c] = "#42f55d"
-        numbers[r][c] = str(s[r][c])
-
-    _, ax = plt.subplots()
-    ax.table(loc='center', cellColours=colors, colLabels=columns, rowLabels=rows, cellText=numbers)
-    plt.title(dot_parentheses_string)
-    ax.axis('tight')
-    ax.axis('off')
-    plt.savefig(output_prefix + str(num) + ".png")
-    plt.clf()
-
-if __name__ == "__main__":
-    base_pairings = {
-        'G' : ['C'],
-        'C' : ['G'],
-        'A' : ['U'],
-        'U' : ['A']
-    }
-
-    seq = sys.argv[1]
-    output_prefix = sys.argv[1]
-    table = nussinov(seq, base_pairings)
-    results = traceback(table, seq, base_pairings)
-    
-    seen_dot_paren = []
-    num = 0
-    for (traceback_list, paren_list) in results:
-        dot_parentheses_string = dot_parentheses_notation(table, paren_list)
-        if dot_parentheses_string not in seen_dot_paren:
-            seen_dot_paren.append(dot_parentheses_string)
-            generate_visualization(table, traceback_list, seq, dot_parentheses_string, num, output_prefix)
-            num += 1 
