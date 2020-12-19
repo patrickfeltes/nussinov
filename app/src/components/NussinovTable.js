@@ -3,8 +3,20 @@ import React, { Component } from 'react';
 class NussinovTable extends Component {
     constructor(props) {
         super(props);
+
+        var traceback = this.props.traceback;
+        var _row_col_dict = {};
+
+        if (traceback != null) {
+            for (var i = 0; i < traceback.length; i++) {
+                var row_col_list = traceback[i];
+                _row_col_dict[row_col_list[0]] = row_col_list[1];
+            }
+        }
+
         this.state = {
-            dp_table: this.props.dp_table_prop
+            dp_table: this.props.dp_table_prop,
+            row_col_dict: _row_col_dict
         };
     }
 
@@ -15,7 +27,7 @@ class NussinovTable extends Component {
         return this.state.dp_table.map((row, i) => {
            var entry = row.map((element, j) => {
                 return (
-                    <td key={j}>{element}</td>
+                    <td className={this.state.row_col_dict[i] == j ? 'highlightedCell' : ''} key={j}>{element}</td>
                 );
            });
            return (

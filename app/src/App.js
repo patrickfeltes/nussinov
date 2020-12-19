@@ -11,6 +11,7 @@ class App extends Component {
     this.state = {
       dp_table: null,
       dot_paren_strings: null,
+      tracebacks: null,
       selected_idx: null
     };
   }
@@ -27,10 +28,13 @@ class App extends Component {
         (result) => {
           var _dot_paren_strings = result.dot_paren_strings;
           var _dp_table = result.dp_table;
+          var _tracebacks = result.tracebacks;
+
           this.setState(
             { 
               dot_paren_strings: _dot_paren_strings,
               dp_table: _dp_table,
+              tracebacks: _tracebacks,
               selected_idx: 0
             }
           );
@@ -83,7 +87,7 @@ class App extends Component {
             </label>
             <button type="submit">Submit</button>
         </form>
-        <NussinovTable key={this.state.dp_table} dp_table_prop={this.state.dp_table} />
+        <NussinovTable key={this.state.selected_idx} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} />
         {this.renderDotParenTable()}
       </div>
     );

@@ -21,13 +21,14 @@ def nussinov():
     dp_table = nussinov_alg(rna_sequence, base_pairings)
     traceback_lists = traceback(dp_table, rna_sequence, base_pairings)
     dot_paren_strings = []
+    tracebacks = []
 
     for (traceback_list, paren_list) in traceback_lists:
         dot_parentheses_string = get_dot_parentheses_notation(dp_table, paren_list)
         dot_paren_strings.append(dot_parentheses_string)
-
-    # TODO: format the traceback_lists better for JSON
-    return jsonify(dp_table=dp_table, dot_paren_strings=dot_paren_strings)
+        tracebacks.append(traceback_list)
+    
+    return jsonify(dp_table=dp_table, dot_paren_strings=dot_paren_strings, tracebacks=tracebacks)
 
 if __name__ == '__main__':
     app.run(debug=True)
