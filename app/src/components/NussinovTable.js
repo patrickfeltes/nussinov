@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 
+const styles = {
+    tableStyle: {
+        marginTop: "3vh",
+        marginLeft: "3vw"
+    }
+}
+
 class NussinovTable extends Component {
     constructor(props) {
         super(props);
@@ -44,7 +51,7 @@ class NussinovTable extends Component {
         return this.state.dp_table.map((row, i) => {
            var entry = row.map((element, j) => {
                 return (
-                    <td className={this.state.row_col_dict[i] == j ? 'highlightedCell' : ''} key={j}>{element}</td>
+                    <td className={this.state.row_col_dict[i] === j ? 'highlightedCell' : ''} key={j}>{element}</td>
                 );
            });
            return (
@@ -60,7 +67,7 @@ class NussinovTable extends Component {
     render() {
         return (
             <div>
-                <table id='nussinov'>
+                <table style={styles.tableStyle} id='nussinov'>
                     <tbody>
                         {this.renderSequenceRow()}
                         {this.renderTableData()}

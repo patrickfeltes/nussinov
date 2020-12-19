@@ -4,8 +4,55 @@ import NussinovTable from './components/NussinovTable';
 
 let baseURL = 'http://localhost:5000/';
 
-class App extends Component {
+const styles = {
+  bannerStyle: {
+    width: "100vw",
+    height: "10vh",
+    backgroundColor: "#0EBBD1"
+  },
+  titleStyle: {
+    marginTop: 0,
+    fontSize: "30px",
+    textAlign: "center",
+    paddingTop: "3vh"
+  },
+  formStyle: {
+    marginTop: "3vh",
+    marginLeft: "18vw"
+  },
+  inputStyle: {
+    width: "50vw",
+    height: "3vh",
+    fontSize: "20px",
+    color: "black",
+    paddingLeft: "1vw",
+    paddingTop: "0.5vh",
+    paddingBottom: "0.5vh",
+    border: "2px solid gray",
+    borderRadius: "8px",
+    marginRight: "1vw"
+  },
+  buttonStyle: {
+    height: "4vh",
+    backgroundColor: "#2CB27A",
+    width: "5vw",
+    fontSize: "25px",
+    borderRadius: "6px",
+  },
+  dotStyle: {
+    marginLeft: "18vw",
+    marginTop: "3vh"
+  },
+  dotTitleStyle: {
+    paddingTop: "1vh",
+    paddingBottom: "1vh",
+    paddingLeft: "2vh",
+    paddingRight: "2vh",
+    backgroundColor: "#14AD5B"
+  }
+}
 
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,10 +114,10 @@ class App extends Component {
 
   renderDotParenTable() {
     return (
-      <table id='dot-paren'>
+      <table style={styles.dotStyle} id='dot-paren'>
         <thead>
           <tr>
-            <th>Possible Dot-Parentheses</th>
+            <th style={styles.dotTitleStyle}>Possible Dot-Parentheses</th>
           </tr>
         </thead>
         <tbody>
@@ -83,14 +130,17 @@ class App extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleFormSubmit}>
+        <div style={styles.bannerStyle}>
+          <p style={styles.titleStyle}>Nussinov Calculator</p>
+        </div>
+        <form style={styles.formStyle} onSubmit={this.handleFormSubmit}>
             <label>
-              RNA Sequence: <input type="text" name="sequence" />
+              <input style={styles.inputStyle} type="text" placeholder="RNA Sequence" name="sequence" />
             </label>
-            <button type="submit">Submit</button>
+            <button style={styles.buttonStyle} type="submit">Go</button>
         </form>
+        {this.state.sequence === null ? null : this.renderDotParenTable()}
         <NussinovTable key={this.state.selected_idx} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} sequence={this.state.sequence} />
-        {this.renderDotParenTable()}
       </div>
     );
   }
