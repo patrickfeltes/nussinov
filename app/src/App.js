@@ -10,7 +10,8 @@ class App extends Component {
     super(props);
     this.state = {
       dp_table: null,
-      dot_paren_strings: null
+      dot_paren_strings: null,
+      selected_idx: null
     };
   }
 
@@ -29,12 +30,48 @@ class App extends Component {
           this.setState(
             { 
               dot_paren_strings: _dot_paren_strings,
-              dp_table: _dp_table 
+              dp_table: _dp_table,
+              selected_idx: 0
             }
           );
         }
       );
   
+  }
+
+  handleDotParenClick = (idx) => {
+    this.setState({ selected_idx: idx })
+  }
+
+  renderDotParenData() {
+    if (this.state.dot_paren_strings == null) {
+      return null;
+    }
+    var items = this.state.dot_paren_strings.map((elem, idx) => {
+      return (
+        <tr key={idx} className={this.state.selected_idx === idx ? 'selected' : ''} onClick={ (event) => { this.handleDotParenClick(idx) }}>
+          <td>{elem}</td>
+        </tr>
+      );
+    });
+    return (
+      items
+    );
+  }
+
+  renderDotParenTable() {
+    return (
+      <table id='dot-paren'>
+        <thead>
+          <tr>
+            <th>Possible Dot-Parentheses</th>
+          </tr>
+        </thead>
+        <tbody>
+            {this.renderDotParenData()}
+        </tbody>
+      </table>
+    );
   }
 
   render() {
@@ -47,6 +84,7 @@ class App extends Component {
             <button type="submit">Submit</button>
         </form>
         <NussinovTable key={this.state.dp_table} dp_table_prop={this.state.dp_table} />
+        {this.renderDotParenTable()}
       </div>
     );
   }

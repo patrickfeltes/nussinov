@@ -42,6 +42,7 @@
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   border: 3px solid #ddd;
+  float: left;
 }
 
 #nussinov td, #nussinov th {
@@ -50,5 +51,27 @@
 }
 
 .highlightedCell {
+  background-color: yellow;
+}
+
+#dot-paren {
+  text-align: center;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  float: left;
+}
+
+#dot-paren td, #nussinov th {
+  border: 1px solid #ddd;
+  padding: 4px;
+  cursor: pointer;
+}
+
+#dot-paren td:hover {
+  background-color: grey;
+}
+
+#dot-paren .selected {
   background-color: yellow;
 }
