@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+#nussinov {
+  text-align: center;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  border: 3px solid #ddd;
+}
+
+#nussinov td, #nussinov th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.highlightedCell {
+  background-color: yellow;
+}
