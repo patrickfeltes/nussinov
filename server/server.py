@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 from nussinov import nussinov_alg, traceback, get_dot_parentheses_notation
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/nussinov', methods = ['GET'])
 def nussinov():

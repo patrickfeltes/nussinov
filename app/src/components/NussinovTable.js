@@ -4,101 +4,14 @@ class NussinovTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dp_table: [
-                [0, 0, 0, 0, 0, 0, 1, 2, 3],
-                [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    2,
-                    3
-                ],
-                [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    2,
-                    2
-                ],
-                [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    1,
-                    1
-                ],
-                [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    1,
-                    1
-                ],
-                [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    1,
-                    1
-                ],
-                [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ]
-            ]
+            dp_table: this.props.dp_table_prop
         };
     }
 
     renderTableData() {
+        if (this.state.dp_table == null) {
+            return null;
+        }
         return this.state.dp_table.map((row, i) => {
            var entry = row.map((element, j) => {
                 return (
