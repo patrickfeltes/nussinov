@@ -9,6 +9,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      sequence: null,
       dp_table: null,
       dot_paren_strings: null,
       tracebacks: null,
@@ -32,6 +33,7 @@ class App extends Component {
 
           this.setState(
             { 
+              sequence: sequence,
               dot_paren_strings: _dot_paren_strings,
               dp_table: _dp_table,
               tracebacks: _tracebacks,
@@ -87,7 +89,7 @@ class App extends Component {
             </label>
             <button type="submit">Submit</button>
         </form>
-        <NussinovTable key={this.state.selected_idx} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} />
+        <NussinovTable key={this.state.selected_idx} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} sequence={this.state.sequence} />
         {this.renderDotParenTable()}
       </div>
     );

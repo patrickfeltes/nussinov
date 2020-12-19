@@ -16,8 +16,25 @@ class NussinovTable extends Component {
 
         this.state = {
             dp_table: this.props.dp_table_prop,
-            row_col_dict: _row_col_dict
+            row_col_dict: _row_col_dict,
+            sequence: this.props.sequence
         };
+    }
+
+    renderSequenceRow() {
+        if (this.state.sequence == null) {
+            return null;
+        }
+        var cells = this.state.sequence.split('').map((c, i) => {
+            return (<td className='sequenceCell'>{c}</td>);
+        });
+        return (
+            <tr>
+                <td></td>
+                {cells}
+                <td></td>
+            </tr>
+        );
     }
 
     renderTableData() {
@@ -32,7 +49,9 @@ class NussinovTable extends Component {
            });
            return (
               <tr key={i}>
-                  {entry}   
+                  <td className='sequenceCell'>{this.state.sequence[i]}</td>
+                  {entry}
+                  <td className='sequenceCell'>{this.state.sequence[i]}</td>   
               </tr>
            );
         });
@@ -43,6 +62,7 @@ class NussinovTable extends Component {
             <div>
                 <table id='nussinov'>
                     <tbody>
+                        {this.renderSequenceRow()}
                         {this.renderTableData()}
                     </tbody>
                 </table>

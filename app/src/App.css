@@ -50,8 +50,13 @@
   padding: 8px;
 }
 
-.highlightedCell {
+#nussinov .highlightedCell {
   background-color: yellow;
+}
+
+#nussinov .sequenceCell {
+  background-color: orange;
+  font-weight: bold;
 }
 
 #dot-paren {
