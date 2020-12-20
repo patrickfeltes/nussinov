@@ -85,3 +85,7 @@
   color: red;
   text-align: center;
 }
+
+.graph {
+  float: left;
+}
