@@ -7,20 +7,20 @@ from graph import create_circular_graph
 app = Flask(__name__)
 CORS(app)
 
+base_pairings = {
+    'G' : ['C'],
+    'C' : ['G'],
+    'A' : ['U'],
+    'U' : ['A']
+}
+
 @app.route('/nussinov', methods = ['GET'])
 def nussinov():
+    # Perform the algorithm
     rna_sequence = request.args.get('rna_sequence')
-
-    # TODO: read this from the request, need to decide on a format
-    base_pairings = {
-        'G' : ['C'],
-        'C' : ['G'],
-        'A' : ['U'],
-        'U' : ['A']
-    }
-
     dp_table = nussinov_alg(rna_sequence, base_pairings)
     traceback_lists = traceback(dp_table, rna_sequence, base_pairings)
+    
     dot_paren_strings = []
     tracebacks = []
     graph_jsons = []

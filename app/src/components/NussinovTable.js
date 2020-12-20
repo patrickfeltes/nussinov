@@ -17,7 +17,11 @@ class NussinovTable extends Component {
         if (traceback != null) {
             for (var i = 0; i < traceback.length; i++) {
                 var row_col_list = traceback[i];
-                _row_col_dict[row_col_list[0]] = row_col_list[1];
+                if (row_col_list[0] in _row_col_dict) {
+                    _row_col_dict[row_col_list[0]].push(row_col_list[1]);
+                } else {
+                    _row_col_dict[row_col_list[0]] = [row_col_list[1]];
+                }
             }
         }
 
@@ -51,7 +55,7 @@ class NussinovTable extends Component {
         return this.state.dp_table.map((row, i) => {
            var entry = row.map((element, j) => {
                 return (
-                    <td className={this.state.row_col_dict[i] === j ? 'highlightedCell' : ''} key={j}>{element}</td>
+                    <td className={i in this.state.row_col_dict && this.state.row_col_dict[i].includes(j) ? 'highlightedCell' : ''} key={j}>{element}</td>
                 );
            });
            return (
