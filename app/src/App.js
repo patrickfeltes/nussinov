@@ -63,7 +63,8 @@ class App extends Component {
       tracebacks: null,
       selected_idx: null,
       graphs: null,
-      input_invalid: false
+      input_invalid: false,
+      rendering: true,
     };
   }
 
@@ -87,6 +88,8 @@ class App extends Component {
       this.setState({ input_invalid: true });
       return;
     }
+
+    this.setState({rendering: true});
     
     var nussinovURL = baseURL + 'nussinov?rna_sequence=' + sequence;
     fetch(nussinovURL)
@@ -105,7 +108,8 @@ class App extends Component {
               dp_table: _dp_table,
               tracebacks: _tracebacks,
               selected_idx: 0,
-              graphs: _graphs
+              graphs: _graphs,
+              rendering: false
             }
           );
         }
@@ -162,11 +166,15 @@ class App extends Component {
         </form>
         {this.state.input_invalid ? <center><p className="errorMessage">Your input string should only have the characters A, U, G, and C.</p></center> : null}
         {this.state.sequence === null ? null : this.renderDotParenTable()}
-        <NussinovTable key={this.state.selected_idx + this.state.sequence} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} sequence={this.state.sequence} />
-        <Sigma className="graph" style={{maxWidth:"600px", height: "800px", marginLeft: "18vw", marginTop: "3vh"}} key={this.state.selected_idx} graph={(this.state.graphs != null && this.state.selected_idx != null) ? this.state.graphs[this.state.selected_idx] : null} settings = {{ drawEdges: true, clone: false}}>
-          <RelativeSize initialSize={20}/>
-        </Sigma>
-        
+        {this.state.rendering ? null : <NussinovTable key={this.state.selected_idx + this.state.sequence} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} sequence={this.state.sequence} />}
+        {this.state.rendering ? null : 
+          <div>
+            <p style={{marginLeft: "55vw", marginBottom: 0}}>Please zoom in or hover over the vertices if you cannot see the labels.</p>
+            <Sigma className="graph" style={{maxWidth:"600px", height: "800px", marginLeft: "18vw", marginTop: 0}} key={this.state.selected_idx} graph={(this.state.graphs != null && this.state.selected_idx != null) ? this.state.graphs[this.state.selected_idx] : null} settings = {{ drawEdges: true, clone: false}}>
+              <RelativeSize initialSize={20}/>
+          </Sigma>
+         </div>
+        }
       </div>
     );
   }
