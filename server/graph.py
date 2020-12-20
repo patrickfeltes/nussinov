@@ -59,7 +59,7 @@ def create_circular_graph(rna_sequence, dot_paren_string):
         edge["id"] = id_str
         edge["source"] = i
         edge["target"] = j
-        edge["color"] = "#FF0000"
+        edge["color"] = "#34eb58"
         edges.append(edge)
         edge_id += 1
 
