@@ -140,7 +140,7 @@ class App extends Component {
             <button style={styles.buttonStyle} type="submit">Go</button>
         </form>
         {this.state.sequence === null ? null : this.renderDotParenTable()}
-        <NussinovTable key={this.state.selected_idx} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} sequence={this.state.sequence} />
+        <NussinovTable key={this.state.selected_idx + this.state.sequence} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} sequence={this.state.sequence} />
       </div>
     );
   }
