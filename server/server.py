@@ -6,27 +6,27 @@ import json
 app = Flask(__name__)
 CORS(app)
 
+base_pairings = {
+    'G' : ['C'],
+    'C' : ['G'],
+    'A' : ['U'],
+    'U' : ['A']
+}
+
 @app.route('/nussinov', methods = ['GET'])
 def nussinov():
+    # Perform the algorithm
     rna_sequence = request.args.get('rna_sequence')
-
-    # TODO: read this from the request, need to decide on a format
-    base_pairings = {
-        'G' : ['C'],
-        'C' : ['G'],
-        'A' : ['U'],
-        'U' : ['A']
-    }
-
     dp_table = nussinov_alg(rna_sequence, base_pairings)
     traceback_lists = traceback(dp_table, rna_sequence, base_pairings)
+    
     dot_paren_strings = []
     tracebacks = []
-
     for (traceback_list, paren_list) in traceback_lists:
         dot_parentheses_string = get_dot_parentheses_notation(dp_table, paren_list)
-        dot_paren_strings.append(dot_parentheses_string)
-        tracebacks.append(traceback_list)
+        if dot_parentheses_string not in dot_paren_strings:
+            dot_paren_strings.append(dot_parentheses_string)
+            tracebacks.append(traceback_list)
     
     return jsonify(dp_table=dp_table, dot_paren_strings=dot_paren_strings, tracebacks=tracebacks)
 
