@@ -80,3 +80,12 @@
 #dot-paren .selected {
   background-color: yellow;
 }
+
+.errorMessage {
+  color: red;
+  text-align: center;
+}
+
+.graph {
+  float: left;
+}

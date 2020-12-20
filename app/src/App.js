@@ -1,6 +1,7 @@
 import './App.css';
 import React, { Component } from 'react';
 import NussinovTable from './components/NussinovTable';
+import { Sigma, RelativeSize, SigmaEnableWebGL } from 'react-sigma';
 
 let baseURL = 'http://localhost:5000/';
 
@@ -60,14 +61,32 @@ class App extends Component {
       dp_table: null,
       dot_paren_strings: null,
       tracebacks: null,
-      selected_idx: null
+      selected_idx: null,
+      graphs: null,
+      input_invalid: false
     };
+  }
+
+  validateInput(sequence) {
+    for (var i = 0; i < sequence.length; i++) {
+      var c = sequence.charAt(i);
+      if (c != 'G' && c != 'A' && c != 'U' && c != 'C') {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   handleFormSubmit = (event) => {
     event.preventDefault();
+    this.setState({ input_invalid: false });
+
     var sequence = event.target.sequence.value.toUpperCase();
-    // TODO: sanitize input
+    if (!this.validateInput(sequence)) {
+      this.setState({ input_invalid: true });
+      return;
+    }
     
     var nussinovURL = baseURL + 'nussinov?rna_sequence=' + sequence;
     fetch(nussinovURL)
@@ -77,6 +96,7 @@ class App extends Component {
           var _dot_paren_strings = result.dot_paren_strings;
           var _dp_table = result.dp_table;
           var _tracebacks = result.tracebacks;
+          var _graphs = result.graph_jsons;
 
           this.setState(
             { 
@@ -84,7 +104,8 @@ class App extends Component {
               dot_paren_strings: _dot_paren_strings,
               dp_table: _dp_table,
               tracebacks: _tracebacks,
-              selected_idx: 0
+              selected_idx: 0,
+              graphs: _graphs
             }
           );
         }
@@ -139,8 +160,13 @@ class App extends Component {
             </label>
             <button style={styles.buttonStyle} type="submit">Go</button>
         </form>
+        {this.state.input_invalid ? <center><p className="errorMessage">Your input string should only have the characters A, U, G, and C.</p></center> : null}
         {this.state.sequence === null ? null : this.renderDotParenTable()}
-        <NussinovTable key={this.state.selected_idx} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} sequence={this.state.sequence} />
+        <NussinovTable key={this.state.selected_idx + this.state.sequence} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} sequence={this.state.sequence} />
+        <Sigma className="graph" style={{maxWidth:"600px", height: "800px", marginLeft: "18vw", marginTop: "3vh"}} key={this.state.selected_idx} graph={(this.state.graphs != null && this.state.selected_idx != null) ? this.state.graphs[this.state.selected_idx] : null} settings = {{ drawEdges: true, clone: false}}>
+          <RelativeSize initialSize={20}/>
+        </Sigma>
+        
       </div>
     );
   }
