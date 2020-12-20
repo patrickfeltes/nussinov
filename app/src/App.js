@@ -60,14 +60,31 @@ class App extends Component {
       dp_table: null,
       dot_paren_strings: null,
       tracebacks: null,
-      selected_idx: null
+      selected_idx: null,
+      input_invalid: false
     };
+  }
+
+  validateInput(sequence) {
+    for (var i = 0; i < sequence.length; i++) {
+      var c = sequence.charAt(i);
+      if (c != 'G' && c != 'A' && c != 'U' && c != 'C') {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   handleFormSubmit = (event) => {
     event.preventDefault();
+    this.setState({ input_invalid: false });
+
     var sequence = event.target.sequence.value.toUpperCase();
-    // TODO: sanitize input
+    if (!this.validateInput(sequence)) {
+      this.setState({ input_invalid: true });
+      return;
+    }
     
     var nussinovURL = baseURL + 'nussinov?rna_sequence=' + sequence;
     fetch(nussinovURL)
@@ -139,6 +156,7 @@ class App extends Component {
             </label>
             <button style={styles.buttonStyle} type="submit">Go</button>
         </form>
+        {this.state.input_invalid ? <center><p className="errorMessage">Your input string should only have the characters A, U, G, and C.</p></center> : null}
         {this.state.sequence === null ? null : this.renderDotParenTable()}
         <NussinovTable key={this.state.selected_idx + this.state.sequence} dp_table_prop={this.state.dp_table} traceback={this.state.tracebacks ? this.state.tracebacks[this.state.selected_idx] : null} sequence={this.state.sequence} />
       </div>
